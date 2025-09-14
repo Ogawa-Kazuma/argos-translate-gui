@@ -1,200 +1,272 @@
-# Argos Translate
-[Demo](https://libretranslate.com) | [Website](https://www.argosopentech.com) | [Docs](https://argos-translate.readthedocs.io) |  [Forum](https://community.libretranslate.com/c/argos-translate/5) | [GitHub](https://github.com/argosopentech/argos-translate) | [PyPI](https://pypi.org/project/argostranslate/)
+# Argos Translate GUI
 
-**Open-source offline translation library written in Python**
+A modern graphical user interface for [Argos Translate](https://github.com/argosopentech/argos-translate), providing an easy-to-use interface for offline neural machine translation.
 
-Argos Translate uses [OpenNMT](https://opennmt.net/) for translations and can be used as either a Python library, command-line, or GUI application. Argos Translate supports installing language model packages which are zip archives with a ".argosmodel" extension containing the data needed for translation. [LibreTranslate](https://libretranslate.com) is an API and web-app built on top of Argos Translate.
+![Argos Translate GUI](https://img.shields.io/badge/Argos%20Translate-GUI-blue)
+![Python](https://img.shields.io/badge/Python-3.11%2B-green)
+![License](https://img.shields.io/badge/License-MIT-yellow)
 
-Argos Translate also manages automatically pivoting through intermediate languages to translate between languages that don't have a direct translation between them installed. For example, if you have a es → en and en → fr translation installed you are able to translate from es → fr as if you had that translation installed. This allows for translating between a wide variety of languages at the cost of some loss of translation quality.
+## Features
 
-The [argospm-index](https://github.com/argosopentech/argospm-index) contains metadata and download links to access pre-trained Argos Translate models.
+### 🔄 Translation Interface
+- **Intuitive Language Selection**: Choose source and target languages from installed packages
+- **Real-time Translation**: Fast translation with progress indication
+- **Text Management**: Large text areas with scroll support for long documents
+- **Language Swapping**: Quick button to swap source and target languages
+- **Copy to Clipboard**: One-click copying of translated text
 
-### Supported languages
+### 📦 Package Management
+- **Package Browser**: View all available language packages in a table format
+- **One-Click Installation**: Install language packages with a single click
+- **Package Status**: See which packages are installed vs available
+- **Update Index**: Refresh the package index to get latest packages
+- **Progress Tracking**: Visual progress indicators for long operations
+- **Uninstall Support**: Remove packages you no longer need
 
-##### [Browse Package Index](https://www.argosopentech.com/argospm/index/)
+### ⚙️ Settings & Configuration
+- **Device Configuration**: Choose between CPU, CUDA, or auto device selection
+- **Debug Mode**: Enable debug logging for troubleshooting
+- **Package Directory**: Configure where language packages are stored
+- **System Information**: View current configuration and system details
 
-Arabic, Azerbaijani, Basque, Catalan, Chinese, Czech, Danish, Dutch, English, Esperanto, Finnish, French, Galician, German, Greek, Hebrew, Hindi, Hungarian, Indonesian, Irish, Italian, Japanese, Kyrgyz, Korean, Malay, Persian, Polish, Portuguese, Portuguese (Brazil), Russian, Slovak, Spanish, Swedish, Turkish, Ukrainian, Urdu, and more
+### 🛡️ Compatibility Features
+- **Safe Mode**: Gracefully handles compatibility issues with different Python versions
+- **Demo Mode**: Works even when Argos Translate is not fully available
+- **Error Handling**: Comprehensive error handling with user-friendly messages
+- **Fallback Support**: Demo translations for testing the interface
 
-[Request a language](https://github.com/argosopentech/argos-translate/discussions/91)
+## Screenshots
+
+### Translation Tab
+- Clean, modern interface for text translation
+- Language selection with swap functionality
+- Large text areas for comfortable editing
+
+### Package Management Tab
+- Table view of all available packages
+- Install/uninstall buttons with status indicators
+- Progress bars for long operations
+
+### Settings Tab
+- Device configuration options
+- Package directory management
+- System information display
 
 ## Installation
-### Install with Python
-Argos Translate is available from [PyPI](https://pypi.org/project/argostranslate/) and can be easily installed with [pip](https://pip.pypa.io/en/stable/installation/).
 
-```
+### Prerequisites
+- Python 3.11 or higher (recommended for full compatibility)
+- Tkinter (usually included with Python)
+- Argos Translate (optional - GUI works in demo mode without it)
+
+### Quick Start
+
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd argos-translate-gui
+   ```
+
+2. **Create a virtual environment (recommended):**
+   ```bash
+   python -m venv .venv
+   
+   # On Windows:
+   .venv\Scripts\activate
+   
+   # On macOS/Linux:
+   source .venv/bin/activate
+   ```
+
+3. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Run the GUI:**
+   ```bash
+   # On Windows:
+   launch_gui.bat
+   
+   # Or directly:
+   python argos_translate_gui_safe.py
+   ```
+
+### Full Installation with Argos Translate
+
+For full functionality, install Argos Translate:
+
+```bash
 pip install argostranslate
 ```
 
-Install [GUI](https://github.com/argosopentech/argos-translate-gui):
-```
-pip install argostranslategui
-```
+**Note:** If you encounter compatibility issues with Python 3.13+, the GUI will automatically run in demo mode.
 
-### Python source installation into virtualenv
+## Usage
 
-Download a copy of this repo and install with pip.
+### First Time Setup
 
-```
-git clone https://github.com/argosopentech/argos-translate.git
-cd argos-translate
-virtualenv env
-source env/bin/activate
-pip install -e .
-```
+1. **Install Language Packages:**
+   - Go to the "Package Management" tab
+   - Click "Update Package Index" to refresh available packages
+   - Select a language package (e.g., "translate-en_es" for English to Spanish)
+   - Click "Install Selected" to download and install the package
 
-## Examples
-### [Python](https://argos-translate.readthedocs.io/en/latest/py-modindex.html)
+2. **Configure Settings (Optional):**
+   - Go to the "Settings" tab
+   - Adjust device type if you have CUDA support
+   - Configure package directory if needed
+   - Click "Save Settings"
 
-```python
-import argostranslate.package
-import argostranslate.translate
+### Translating Text
 
-from_code = "en"
-to_code = "es"
+1. **Select Languages:**
+   - Choose source language from the "From" dropdown
+   - Choose target language from the "To" dropdown
+   - Use the ⇄ button to quickly swap languages
 
-# Download and install Argos Translate package
-argostranslate.package.update_package_index()
-available_packages = argostranslate.package.get_available_packages()
-package_to_install = next(
-    filter(
-        lambda x: x.from_code == from_code and x.to_code == to_code, available_packages
-    )
-)
-argostranslate.package.install_from_path(package_to_install.download())
+2. **Enter Text:**
+   - Type or paste text in the "Input Text" area
+   - The text area supports multi-line text and long documents
 
-# Translate
-translatedText = argostranslate.translate.translate("Hello World", from_code, to_code)
-print(translatedText)
-# '¡Hola Mundo!'
-```
+3. **Translate:**
+   - Click the "Translate" button
+   - Wait for the translation to complete
+   - View the result in the "Translated Text" area
 
-### Command Line Interface
-```
-argospm update
-argospm install translate-en_de
-argos-translate --from en --to de "Hello World!"
-# Hallo Welt!
+4. **Copy Result:**
+   - Click "Copy Translation" to copy the result to clipboard
 
-```
+### Managing Packages
 
-Install all translation packages:
-```
-argospm install translate
-```
+- **View Packages:** All available packages are listed in the Package Management tab
+- **Install Packages:** Select a package and click "Install Selected"
+- **Uninstall Packages:** Select an installed package and click "Uninstall Selected"
+- **Update Index:** Click "Update Package Index" to refresh the package list
 
-### [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate) Web App ([Demo](https://libretranslate.com/))
-![Web App Screenshot](img/WebAppScreenshot.png)
+## Supported Languages
 
-### [LibreTranslate](https://github.com/uav4geo/LibreTranslate) API
+The GUI supports all languages available in Argos Translate, including:
 
-```javascript
-const res = await fetch("https://translate.argosopentech.com/translate", {
-	method: "POST",
-	body: JSON.stringify({
-		q: "Hello!",
-		source: "en",
-		target: "es"
-	}),
-	headers: {
-		"Content-Type": "application/json"}
-	});
+- **European Languages:** English, Spanish, French, German, Italian, Portuguese, Russian, Polish, Czech, Dutch, Swedish, Danish, Finnish, Norwegian, Greek, Hungarian, Romanian, Bulgarian, Croatian, Slovak, Slovenian, Estonian, Latvian, Lithuanian
+- **Asian Languages:** Chinese (Simplified & Traditional), Japanese, Korean, Hindi, Thai, Vietnamese, Indonesian, Malay, Filipino
+- **Middle Eastern Languages:** Arabic, Hebrew, Persian, Turkish
+- **Other Languages:** Esperanto, Irish, Ukrainian, and more
 
-console.log(await res.json());
+## System Requirements
 
-{
-    "translatedText": "¡Hola!"
-}
-```
+- **Python:** 3.11 or higher (3.11 recommended for full compatibility)
+- **Memory:** 4GB RAM minimum, 8GB recommended
+- **Storage:** 2GB free space for language packages
+- **GPU:** Optional CUDA support for faster translations
+- **OS:** Windows, macOS, or Linux
 
-#### Graphical user interface
-The GUI code is in a [separate repository](https://github.com/argosopentech/argos-translate-gui).
-
-![Screenshot](/img/Screenshot.png)
-![Screenshot2](/img/Screenshot2.png)
-
-
-## [Packages](https://www.argosopentech.com/argospm/index/)
-- [Browse](https://www.argosopentech.com/argospm/index/)
-- [P2P download with BitTorrent](/p2p/README.md)
-- [Training scripts](https://github.com/argosopentech/argos-train)
-- [Google Drive download](https://drive.google.com/drive/folders/11wxM3Ze7NCgOk_tdtRjwet10DmtvFu3i)
-
-
-### GPU Acceleration
-
-To enable GPU support, you need to set the `ARGOS_DEVICE_TYPE` env variable to `cuda` or `auto`.
+## Project Structure
 
 ```
-$ ARGOS_DEVICE_TYPE=cuda argos-translate --from-lang en --to-lang es "Hello World"
-Hola Mundo
+argos-translate-gui/
+├── argos_translate_gui_safe.py    # Main GUI application (safe version)
+├── argos_translate_gui.py         # Original GUI application
+├── launch_gui.py                  # Python launcher script
+├── launch_gui.bat                 # Windows batch launcher
+├── test_gui.py                    # Test script
+├── setup_python311.py             # Python 3.11 setup helper
+├── requirements.txt               # Python dependencies
+├── README.md                      # This file
+├── README_GUI.md                  # Detailed GUI documentation
+├── LICENSE                        # License file
+└── .gitignore                     # Git ignore file
 ```
 
-The above env variable passes the device type to [CTranslate2](https://github.com/OpenNMT/CTranslate2).
+## Development
 
-### HTML Translation
-The [translate-html](https://github.com/argosopentech/translate-html) library is built on top of Argos Translate and [Beautiful Soup](https://beautiful-soup-4.readthedocs.io/en/latest/) and parses and translates HTML. The LibreTranslate API also has support for translating HTML.
+### Running Tests
 
-
-### Files Translation
-The [argos-translate-files](https://github.com/LibreTranslate/argos-translate-files) library is built on top of Argos Translate and parses and translates files. The LibreTranslate API also has support for translating files.
-
-## Uninstall
-
-``` shell
-pip uninstall argostranslate
+```bash
+python test_gui.py
 ```
 
-You may choose to also delete temporary and cached files:
+### Contributing
 
-``` shell
-rm -r ~/.local/cache/argos-translate
-rm -r ~/.local/share/argos-translate
-```
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature-name`
+3. Make your changes
+4. Test your changes: `python test_gui.py`
+5. Commit your changes: `git commit -am 'Add feature'`
+6. Push to the branch: `git push origin feature-name`
+7. Submit a pull request
+
+### Code Style
+
+- Follow PEP 8 guidelines
+- Use type hints where appropriate
+- Add docstrings to functions and classes
+- Keep functions small and focused
+
+## Troubleshooting
+
+### Common Issues
+
+1. **"No languages available":**
+   - Install language packages in the Package Management tab
+   - Update the package index first
+
+2. **Translation fails:**
+   - Check that both source and target languages are installed
+   - Verify the language package is properly installed
+   - Try updating the package index
+
+3. **GUI won't start:**
+   - Ensure Python 3.11+ is installed
+   - Check that Tkinter is available: `python -c "import tkinter"`
+   - Try running in demo mode: `python argos_translate_gui_safe.py`
+
+4. **Slow translations:**
+   - Enable CUDA support in Settings if you have a compatible GPU
+   - Ensure you have sufficient RAM available
+   - Close other applications to free up resources
+
+5. **Python 3.13+ compatibility issues:**
+   - The GUI automatically runs in demo mode
+   - For full functionality, use Python 3.11
+   - See `setup_python311.py` for help setting up Python 3.11
+
+### Debug Mode
+
+Enable debug mode in the Settings tab to get detailed logging information for troubleshooting.
+
+## Technical Details
+
+- **GUI Framework:** Tkinter with ttk styling for modern appearance
+- **Threading:** Translation operations run in background threads to prevent GUI freezing
+- **Package Management:** Full integration with Argos Translate package system
+- **Configuration:** Persistent settings with environment variable support
+- **Error Handling:** Comprehensive error handling with user-friendly messages
+- **Compatibility:** Safe fallback mode for different Python versions
 
 ## Related Projects
-- [LibreTranslate-py](https://github.com/argosopentech/LibreTranslate-py) - Python bindings for LibreTranslate
-- [MetalTranslate](https://github.com/argosopentech/MetalTranslate) - Customizable translation in C++
-- [LibreTranslate/Locomotive](https://github.com/LibreTranslate/Locomotive) - Toolkit for training/converting LibreTranslate compatible language models 🚂 
-- [DesktopTranslator](https://github.com/ymoslem/DesktopTranslator) - [OpenNMT](https://opennmt.net/) based translation application
-- [LibreTranslate-rs](https://github.com/grantshandy/libretranslate-rs) - LibreTranslate Rust bindings
-- [LibreTranslate Go](https://github.com/SnakeSel/libretranslate) - LibreTranslate Golang bindings
-- [LibreTranslate Java](https://github.com/dynomake/libretranslate-java) - LibreTranslate Java bindings
-- [LibreTranslator](https://gitlab.com/BeowuIf/libretranslator) - LibreTranslate Android app
 
-## Contributing
-Contributions are welcome! Available issues are on the [GitHub issues page](https://github.com/argosopentech/argos-translate/issues). Contributions of code, data, and pre-trained models can all be accepted.
-
-## Support
-For support please use the [LibreTranslate Forum](https://community.libretranslate.com/c/argos-translate/5) or [GitHub Issues](https://github.com/argosopentech/argos-translate/issues).
-
-For questions about [CTranslate2](https://github.com/OpenNMT/CTranslate2) or general machine translation research the [OpenNMT Forum](https://forum.opennmt.net/) is a good resource.
-
-## Services
-Custom models trained on your own data are available for $1000/language (negotiable).
-
-[I am also available for hire](https://www.argosopentech.com/about/) to do support, consulting, or custom software development.
-
-## Donate
-If you find this software useful donations are greatly appreciated and help to make this project sustainable.
-- [GitHub Sponsor](https://github.com/sponsors/argosopentech)
-- [PayPal](https://www.paypal.com/biz/fund?id=MCCFG437JP9PJ)
-- [Venmo @pjfinlay](https://venmo.com/u/pjfinlay)
-- Bitcoin: 16UJrmSEGojFPaqjTGpuSMNhNRSsnspFJT
-- Ethereum: argosopentech.eth
-- Litecoin: MCwu7RRWeCRJdsv2bXGj2nnL1xYxDBvwW5
-- BCH: bitcoincash:qzvpxe8y5kq45kahqkyv3p88sjrhlymj2v6xdrj3cv
-
-Paid supporters receive priority support.
-
-#### Hosting affiliate links
-You can help support Argos Translate financially by purchasing hosting through these referral links:
-- [Vast.ai](http://vast.ai/?ref=24817) - Cheap GPU rentals
-- [DigitalOcean](https://m.do.co/c/a1af57be6e3f) - Best all around hosting
-- [Sharktech](https://portal.sharktech.net/aff.php?aff=1181) - Cheap bandwith
-- [Time4VPS](https://www.time4vps.com/?affid=6929) - Cheap storage
-
-## Contributing
-Contributions are welcome! Bug reports, pull requests, documentation writing, and feature ideas are all appreciated.
+- [Argos Translate](https://github.com/argosopentech/argos-translate) - Core translation library
+- [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate) - Web API and server
+- [Argos Translate GUI (Official)](https://github.com/argosopentech/argos-translate-gui) - Official GUI
 
 ## License
-Argos Translate is dual licensed under either the [MIT License](https://github.com/argosopentech/argos-translate/blob/master/LICENSE) or [Creative Commons CC0](https://creativecommons.org/share-your-work/public-domain/cc0/).
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- [Argos Open Technologies](https://www.argosopentech.com/) for the amazing Argos Translate library
+- The open-source community for continuous improvements and feedback
+- Contributors who help make this project better
+
+## Support
+
+For support and questions:
+- Create an issue on GitHub
+- Check the troubleshooting section above
+- Review the [detailed GUI documentation](README_GUI.md)
+
+---
+
+**Made with ❤️ for the open-source translation community**

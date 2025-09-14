@@ -1,5 +1,0 @@
-black
-isort
-pytest
-mypy
-argostranslategui

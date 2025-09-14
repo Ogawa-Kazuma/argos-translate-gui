@@ -1,6 +1,22 @@
-ctranslate2>=4.0,<5
-sentencepiece>=0.2.0,<0.3
-spacy
-stanza==1.10.1
+# Core dependencies
+argostranslate>=1.9.0
+
+# GUI dependencies (usually included with Python)
+# tkinter - included with Python standard library
+
+# Optional dependencies for enhanced functionality
+# These are included with argostranslate but listed here for reference
+ctranslate2>=4.0,<5.0
+sentencepiece==0.2.0
+sacremoses==0.0.53
+stanza==1.1.1
 packaging
-sacremoses>=0.0.53,<0.2
+
+# Development dependencies (optional)
+# pytest>=6.0.0
+# black>=21.0.0
+# flake8>=3.8.0
+# mypy>=0.800
+
+# Note: Some dependencies may have compatibility issues with Python 3.13+
+# The GUI includes safe fallback mode for such cases
