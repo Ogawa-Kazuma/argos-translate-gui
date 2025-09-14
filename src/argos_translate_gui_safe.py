@@ -45,8 +45,22 @@ class ArgosTranslateGUI:
     def __init__(self, root):
         self.root = root
         self.root.title("Argos Translate - Offline Translation")
-        self.root.geometry("1000x700")
-        self.root.minsize(800, 600)
+        self.root.geometry("1200x800")
+        self.root.minsize(1000, 700)
+        
+        # Modern window configuration
+        self.root.configure(bg='#f3f3f3')
+        
+        # Set window icon (if available)
+        try:
+            # You can add an icon file here if you have one
+            # self.root.iconbitmap('icon.ico')
+            pass
+        except:
+            pass
+        
+        # Configure window for modern look
+        self.root.resizable(True, True)
         
         # Configure style
         self.setup_styles()
@@ -72,20 +86,159 @@ class ArgosTranslateGUI:
         self.check_queue()
     
     def setup_styles(self):
-        """Configure the application styles"""
+        """Configure modern Windows 11-style application styles"""
         style = ttk.Style()
-        style.theme_use('clam')
         
-        # Configure colors
-        style.configure('Title.TLabel', font=('Arial', 16, 'bold'))
-        style.configure('Heading.TLabel', font=('Arial', 12, 'bold'))
-        style.configure('Status.TLabel', font=('Arial', 10))
-        style.configure('Warning.TLabel', font=('Arial', 10), foreground='orange')
-        style.configure('Error.TLabel', font=('Arial', 10), foreground='red')
+        # Try to use Windows 11 theme, fallback to clam
+        try:
+            style.theme_use('winnative')
+        except:
+            style.theme_use('clam')
         
-        # Configure buttons
-        style.configure('Action.TButton', font=('Arial', 10, 'bold'))
-        style.configure('Primary.TButton', font=('Arial', 10, 'bold'))
+        # Modern Windows 11 color scheme
+        bg_color = '#f3f3f3'  # Light gray background
+        fg_color = '#323130'  # Dark gray text
+        accent_color = '#0078d4'  # Windows 11 blue
+        hover_color = '#106ebe'  # Darker blue for hover
+        success_color = '#107c10'  # Green
+        warning_color = '#ff8c00'  # Orange
+        error_color = '#d13438'  # Red
+        
+        # Configure root window
+        self.root.configure(bg=bg_color)
+        
+        # Configure notebook (tabs)
+        style.configure('TNotebook', 
+                       background=bg_color,
+                       borderwidth=0,
+                       tabmargins=[0, 0, 0, 0])
+        style.configure('TNotebook.Tab',
+                       background='#e1e1e1',
+                       foreground=fg_color,
+                       padding=[20, 10],
+                       font=('Segoe UI', 10, 'normal'),
+                       borderwidth=0)
+        style.map('TNotebook.Tab',
+                 background=[('selected', accent_color),
+                           ('active', '#e5f1fb')],
+                 foreground=[('selected', 'white'),
+                           ('active', fg_color)])
+        
+        # Configure labels
+        style.configure('Title.TLabel', 
+                       font=('Segoe UI', 18, 'bold'),
+                       foreground=fg_color,
+                       background=bg_color)
+        style.configure('Heading.TLabel', 
+                       font=('Segoe UI', 12, 'bold'),
+                       foreground=fg_color,
+                       background=bg_color)
+        style.configure('Status.TLabel', 
+                       font=('Segoe UI', 9),
+                       foreground='#605e5c',
+                       background=bg_color)
+        style.configure('Warning.TLabel', 
+                       font=('Segoe UI', 9),
+                       foreground=warning_color,
+                       background=bg_color)
+        style.configure('Error.TLabel', 
+                       font=('Segoe UI', 9),
+                       foreground=error_color,
+                       background=bg_color)
+        
+        # Configure buttons with modern styling
+        style.configure('Primary.TButton',
+                       font=('Segoe UI', 10, 'bold'),
+                       background=accent_color,
+                       foreground='white',
+                       borderwidth=0,
+                       focuscolor='none',
+                       padding=[20, 10])
+        style.map('Primary.TButton',
+                 background=[('active', hover_color),
+                           ('pressed', '#005a9e')])
+        
+        style.configure('Action.TButton',
+                       font=('Segoe UI', 10, 'normal'),
+                       background='#e1e1e1',
+                       foreground=fg_color,
+                       borderwidth=0,
+                       focuscolor='none',
+                       padding=[15, 8])
+        style.map('Action.TButton',
+                 background=[('active', '#d1d1d1'),
+                           ('pressed', '#c1c1c1')])
+        
+        style.configure('TButton',
+                       font=('Segoe UI', 9),
+                       background='#e1e1e1',
+                       foreground=fg_color,
+                       borderwidth=0,
+                       focuscolor='none',
+                       padding=[12, 6])
+        style.map('TButton',
+                 background=[('active', '#d1d1d1'),
+                           ('pressed', '#c1c1c1')])
+        
+        # Configure comboboxes
+        style.configure('TCombobox',
+                       font=('Segoe UI', 10),
+                       fieldbackground='white',
+                       background='white',
+                       borderwidth=1,
+                       relief='solid',
+                       padding=[8, 6])
+        style.map('TCombobox',
+                 fieldbackground=[('readonly', 'white')],
+                 selectbackground=[('readonly', accent_color)])
+        
+        # Configure label frames
+        style.configure('TLabelframe',
+                       background=bg_color,
+                       borderwidth=1,
+                       relief='solid',
+                       bordercolor='#d1d1d1')
+        style.configure('TLabelframe.Label',
+                       font=('Segoe UI', 10, 'bold'),
+                       foreground=fg_color,
+                       background=bg_color)
+        
+        # Configure progress bar
+        style.configure('TProgressbar',
+                       background=accent_color,
+                       troughcolor='#e1e1e1',
+                       borderwidth=0,
+                       lightcolor=accent_color,
+                       darkcolor=accent_color)
+        
+        # Configure treeview
+        style.configure('Treeview',
+                       font=('Segoe UI', 9),
+                       background='white',
+                       foreground=fg_color,
+                       fieldbackground='white',
+                       borderwidth=1,
+                       relief='solid')
+        style.configure('Treeview.Heading',
+                       font=('Segoe UI', 9, 'bold'),
+                       background='#f8f8f8',
+                       foreground=fg_color,
+                       borderwidth=1,
+                       relief='solid')
+        style.map('Treeview',
+                 background=[('selected', accent_color)],
+                 foreground=[('selected', 'white')])
+        
+        # Configure scrollbar
+        style.configure('TScrollbar',
+                       background='#e1e1e1',
+                       troughcolor=bg_color,
+                       borderwidth=0,
+                       arrowcolor=fg_color,
+                       darkcolor='#e1e1e1',
+                       lightcolor='#e1e1e1')
+        style.map('TScrollbar',
+                 background=[('active', '#d1d1d1')])
     
     def create_widgets(self):
         """Create the main GUI widgets"""
@@ -136,12 +289,13 @@ class ArgosTranslateGUI:
         )
         self.from_combo.pack(side=tk.LEFT, padx=(10, 0))
         
-        # Swap button
+        # Swap button with modern styling
         swap_btn = ttk.Button(
             from_frame, 
             text="⇄", 
             command=self.swap_languages,
-            width=3
+            width=4,
+            style='Action.TButton'
         )
         swap_btn.pack(side=tk.LEFT, padx=10)
         
@@ -169,7 +323,16 @@ class ArgosTranslateGUI:
             text_frame, 
             height=8, 
             wrap=tk.WORD,
-            font=('Arial', 11)
+            font=('Segoe UI', 11),
+            bg='white',
+            fg='#323130',
+            insertbackground='#0078d4',
+            selectbackground='#0078d4',
+            selectforeground='white',
+            relief='solid',
+            borderwidth=1,
+            padx=8,
+            pady=8
         )
         self.input_text.pack(fill=tk.BOTH, expand=True, pady=(5, 10))
         
@@ -188,7 +351,16 @@ class ArgosTranslateGUI:
             text_frame, 
             height=8, 
             wrap=tk.WORD,
-            font=('Arial', 11),
+            font=('Segoe UI', 11),
+            bg='white',
+            fg='#323130',
+            insertbackground='#0078d4',
+            selectbackground='#0078d4',
+            selectforeground='white',
+            relief='solid',
+            borderwidth=1,
+            padx=8,
+            pady=8,
             state=tk.DISABLED
         )
         self.output_text.pack(fill=tk.BOTH, expand=True, pady=(5, 0))
@@ -858,13 +1030,23 @@ Status: Running in compatibility mode
 def main():
     """Main function to run the GUI"""
     root = tk.Tk()
+    
+    # Set window icon and title
+    root.title("Argos Translate - Offline Translation")
+    
+    # Create the application
     app = ArgosTranslateGUI(root)
     
-    # Center the window
+    # Center the window on screen
     root.update_idletasks()
-    x = (root.winfo_screenwidth() // 2) - (root.winfo_width() // 2)
-    y = (root.winfo_screenheight() // 2) - (root.winfo_height() // 2)
-    root.geometry(f"+{x}+{y}")
+    width = root.winfo_width()
+    height = root.winfo_height()
+    x = (root.winfo_screenwidth() // 2) - (width // 2)
+    y = (root.winfo_screenheight() // 2) - (height // 2)
+    root.geometry(f"{width}x{height}+{x}+{y}")
+    
+    # Set minimum window size
+    root.minsize(1000, 700)
     
     # Start the GUI
     root.mainloop()
